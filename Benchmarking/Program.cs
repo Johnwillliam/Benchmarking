@@ -5,11 +5,12 @@ using BenchmarkDotNet.Toolchains.InProcess.Emit;
 using BenchmarkDotNet.Diagnosers;
 using System.Diagnostics;
 using Benchmarking;
+using BenchmarkDotNet.Attributes;
 
 public class Program
 {
     static void Main(string[] args)
-    {   
+    {
         BenchMarkDotNetMeasurement();
 
         //var boxingBenchMark = new BoxingBenchmark();
@@ -31,15 +32,17 @@ public class Program
                          .MediumRun
                          .WithLaunchCount(1)
                          .WithToolchain(InProcessEmitToolchain.Instance))
-                    .AddDiagnoser(MemoryDiagnoser.Default);
+                    .AddDiagnoser(MemoryDiagnoser.Default)
+                    .WithOptions(ConfigOptions.DisableOptimizationsValidator);
         //BenchmarkRunner.Run<Benchmarks>(config);
-        BenchmarkRunner.Run<StringConcatenationBenchmarks>(config);
+        //BenchmarkRunner.Run<StringConcatenationBenchmarks>(config);
         //BenchmarkRunner.Run<BoxingBenchmark>(config);
         //BenchmarkRunner.Run<ReflectionVsExpressionTreesBenchMark>(config);
         //BenchmarkRunner.Run<StackAllocPerfTest>();
         //BenchmarkRunner.Run<FieldsVsPropertiesBenchmark>();
         //BenchmarkRunner.Run<SpanVsListBenchmark>();
         //BenchmarkRunner.Run<ObjectPoolingBenchmark>(config);
+        BenchmarkRunner.Run<ListBenchmark>(config);
     }
 
     private static void DateTimeMeasurement(Action function)
