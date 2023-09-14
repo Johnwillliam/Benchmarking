@@ -1,4 +1,5 @@
 ﻿using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Jobs;
 
 [MaxIterationCount(20)]
 [WarmupCount(1)]
@@ -14,15 +15,33 @@ public class BoxingBenchmark
         _objList = new List<object>();
     }
 
-    [Benchmark]
+    //[Benchmark]
     public void Boxing_Int()
     {
         _objList.Add(42); // Boxing occurs here
     }
 
-    [Benchmark]
+    //[Benchmark]
     public void NoBoxing_Int()
     {
         _intList.Add(42); // No boxing with List<int>
+    }
+
+    [Benchmark]
+    public void Boxing_Strings()
+    {
+        for (int i = 0; i < 100_000; i++)
+        {
+            var test = "Name " + i;
+        }
+    }
+
+    [Benchmark]
+    public void NoBoxing_Strings()
+    {
+        for (int i = 0; i < 100_000; i++)
+        {
+            var test = $"Name {i}";
+        }
     }
 }
